@@ -32,8 +32,7 @@ const fetchIV = (stockSymbol) => {
         "symbol": stockSymbol.toString(),
         "underlyingStock": underlyingStock,
         "avgCallsIV": 0,
-        "avgPutsIV": 0,
-        "avgStockPrice": 0
+        "avgPutsIV": 0
       };
 
       if(underlyingStock.trim() == "") {
@@ -46,7 +45,6 @@ const fetchIV = (stockSymbol) => {
 
         dataPoint.avgCallsIV = data.avgCallsIV;
         dataPoint.avgPutsIV = data.avgPutsIV;
-        dataPoint.avgStockPrice = data.avgStockPrice;
       }
       resolve(dataPoint);
     });
@@ -62,9 +60,7 @@ const IVAggregator = (parsedTable, index) => {
     "avgCallsIV": average([ Number.parseFloat(callsIVList[index-1]),
                     Number.parseFloat(callsIVList[index])]),
     "avgPutsIV": average([ Number.parseFloat(putsIVList[index-1]),
-                    Number.parseFloat(putsIVList[index])]),
-    "avgStockPrice" :average([ Number.parseFloat(stockPriceList[index-1]),
-                    Number.parseFloat(stockPriceList[index])])
+                    Number.parseFloat(putsIVList[index])])
   };
 
   return dataPoint;
