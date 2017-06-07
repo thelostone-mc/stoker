@@ -3,14 +3,20 @@ var express = require('express'),
   Stock = require('../helpers/stockCRUD'),
   mongoose = require('mongoose'),
   StockLog = mongoose.model('StockLog'),
-  stockList = require('../helpers/stockList');
+  stockList = require('../helpers/stockList'),
+  scheduler = require('node-schedule');
 
 /**
  * Invokes crawler for every stockSymbol and
  * does a single bulk insert upon completion
  */
-const fetchDataPoints = () => {
-  const stocks = stockList.stocks;
+const fetchDataPoints = (stocks) => {
+
+  if(stocks == undefined) {
+    console.log("Fetching symbols from stockList");
+    stocks = stockList.stocks;
+  }
+
   let init = [];
 
   stocks.map((stockSymbol) => {
@@ -18,7 +24,7 @@ const fetchDataPoints = () => {
   });
 
   Promise.all(init).then(dataPoints => {
-    Stock.bulkInsert(dataPoints);
+    Stock.bulkUpdate(dataPoints);
   }).catch(function (err) {
      console.log("Promise Rejected: " + err);
   });
@@ -32,6 +38,13 @@ module.exports = function () {
       console.log("Setting up data");
       fetchDataPoints();
     }
-    console.log(dataSet);
   });
+
+  // Stock.getStockSymbols.then((symbols) => {
+  //   console.log("Symbols length: ", symbols.length);
+  //   // UPDATE SHIT
+  //   fetchDataPoints(symbols);
+  // }).then((symbols) => {
+  //   console.log("DEAD");
+  // });
 };

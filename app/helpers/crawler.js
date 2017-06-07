@@ -20,8 +20,9 @@ const fetchIV = (stockSymbol) => {
     let dataPoint = {};
 
     request(options, (error, response, body) => {
-      if (error || response.statusCode != 200)
-        throw new Error("Error crawling: " + stockSymbol + error);
+      if (error || response.statusCode != 200) {
+        throw new Error("Error crawling: " + stockSymbol + "\t" + error);
+      }
 
       const $ = cheerio.load(body);
       const underlyingStock = stockPriceCleanser($('span').filter(function() {
