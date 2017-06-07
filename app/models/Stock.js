@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 var StockSchema = new Schema({
   symbol: String,
-  callsIV: Number,
-  putsIV: Number,
+  avgCallsIV: Number,
+  avgPutsIV: Number,
   underlyingStock: Number
 });
 

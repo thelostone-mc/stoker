@@ -4,7 +4,7 @@ var express = require('express'),
   mongoose = require('mongoose'),
   StockLog = mongoose.model('StockLog'),
   stockList = require('../helpers/stockList'),
-  scheduler = require('node-schedule');
+  schedule = require('node-schedule');
 
 /**
  * Invokes crawler for every stockSymbol and
@@ -40,11 +40,7 @@ module.exports = function () {
     }
   });
 
-  // Stock.getStockSymbols.then((symbols) => {
-  //   console.log("Symbols length: ", symbols.length);
-  //   // UPDATE SHIT
-  //   fetchDataPoints(symbols);
-  // }).then((symbols) => {
-  //   console.log("DEAD");
-  // });
+  schedule.scheduleJob('0 * * * *', () => {
+    fetchDataPoints();
+  });
 };
