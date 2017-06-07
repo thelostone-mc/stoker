@@ -2,25 +2,10 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema,
       Stock = mongoose.model('Stock');
 
-const bulkInsert = (dataPoints) => {
-  Stock.collection.insert(dataPoints, (err) => {
-    if(err)
-      next(err);
-    console.log("Bulk Insert Done!");
-  });
-};
-
-const insertOne = (dataPoint) => {
-  Stock.collection.save(dataPoint, (err) => {
-    if(err)
-      next(err);
-  });
-};
-
-const getCount = new Promise((resolve, reject) => {
-  Stock.count({}, (err, count) => {
+const getStocks = new Promise((resolve, reject) => {
+  Stock.find({}, { _id: 0}, (err, stocks) => {
     if(err) reject(err);
-    resolve(count);
+    resolve(stocks);
   });
 });
 
@@ -31,7 +16,29 @@ const getStockSymbols = new Promise((resolve, reject) => {
   });
 });
 
-const bulkUpdate = (dataPoints) => {
+const getCount = new Promise((resolve, reject) => {
+  Stock.count({}, (err, count) => {
+    if(err) reject(err);
+    resolve(count);
+  });
+});
+
+const insertOne = (dataPoint) => {
+  Stock.collection.save(dataPoint, (err) => {
+    if(err)
+      next(err);
+  });
+};
+
+const bulkInsert = (dataPoints) => {
+  Stock.collection.insert(dataPoints, (err) => {
+    if(err)
+      next(err);
+    console.log("Bulk Insert Done!");
+  });
+};
+
+const bulkUpsert = (dataPoints) => {
   const bulk = Stock.collection.initializeUnorderedBulkOp();
   dataPoints.map((dataPoint) => {
     bulk.find( {symbol: dataPoint.symbol} ).upsert().replaceOne(dataPoint);
@@ -40,18 +47,11 @@ const bulkUpdate = (dataPoints) => {
   console.log("Bulk Update done !");
 };
 
-const getStocks = new Promise((resolve, reject) => {
-  Stock.find({}, { _id: 0}, (err, stocks) => {
-    if(err) reject(err);
-    resolve(stocks);
-  });
-});
-
 module.exports =  {
-  bulkInsert,
-  insertOne,
-  getCount,
+  getStocks,
   getStockSymbols,
-  bulkUpdate,
-  getStocks
+  getCount,
+  insertOne,
+  bulkInsert,
+  bulkUpsert
 }

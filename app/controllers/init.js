@@ -24,7 +24,7 @@ const fetchDataPoints = (stocks) => {
   });
 
   Promise.all(init).then(dataPoints => {
-    Stock.bulkUpdate(dataPoints);
+    Stock.bulkUpsert(dataPoints);
   }).catch(function (err) {
      console.log("Promise Rejected: " + err);
   });
