@@ -40,10 +40,18 @@ const bulkUpdate = (dataPoints) => {
   console.log("Bulk Update done !");
 };
 
+const getStocks = new Promise((resolve, reject) => {
+  Stock.find({}, { _id: 0}, (err, stocks) => {
+    if(err) reject(err);
+    resolve(stocks);
+  });
+});
+
 module.exports =  {
   bulkInsert,
   insertOne,
   getCount,
   getStockSymbols,
-  bulkUpdate
+  bulkUpdate,
+  getStocks
 }
