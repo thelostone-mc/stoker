@@ -44,8 +44,14 @@ const fetchIV = (stockSymbol) => {
         const parsedTable = $("#octable").parsetable(true, true, true);
         data = tableCleanser(parsedTable, underlyingStock);
 
-        dataPoint.avgCallsIV = data.avgCallsIV;
-        dataPoint.avgPutsIV = data.avgPutsIV;
+        if(data) {
+          dataPoint.avgCallsIV = data.avgCallsIV;
+          dataPoint.avgPutsIV = data.avgPutsIV;
+        }
+        else
+          console.log(stockSymbol +
+            "'s currentStock price is outside the options ladder");
+
       }
       resolve(dataPoint);
     });
