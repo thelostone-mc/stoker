@@ -1,8 +1,11 @@
 
 var express = require('express'),
+  app = express();
   config = require('./config/config'),
   glob = require('glob'),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'),
+  server = require('http').Server(app),
+  io = require('socket.io')(server);
 
 mongoose.connect(config.db);
 mongoose.Promise = Promise;
@@ -17,10 +20,9 @@ var models = glob.sync(config.root + '/app/models/*.js');
 models.forEach(function (model) {
   require(model);
 });
-var app = express();
 
 module.exports = require('./config/express')(app, config);
 
-app.listen(config.port, function () {
+server.listen(config.port, function () {
   console.log('Express server listening on port ' + config.port);
 });
