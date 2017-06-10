@@ -30,15 +30,14 @@ const fetchDataPoints = (stocks) => {
   });
 };
 
-module.exports = function () {
+module.exports = async function () {
 
   // Initialize on startup
-  Stock.getCount.then((dataSet) => {
-    if(dataSet == 0) {
-      console.log("Setting up data");
-      fetchDataPoints();
-    }
-  });
+  let dataSet = await Stock.getCount();
+  if(dataSet == 0) {
+    console.log("Setting up data");
+    fetchDataPoints();
+  }
 
   schedule.scheduleJob('0 * * * *', () => {
     fetchDataPoints();

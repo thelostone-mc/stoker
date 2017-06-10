@@ -6,17 +6,15 @@ var express = require('express'),
 module.exports = function (app) {
   app.use('/', router);
 
-  io.on('connection', function (socket) {
-    Stock.getStocks.then((stocks) => {
-      socket.emit('stocks', { stocks: stocks });
-    });
+  io.on('connection', async function (socket) {
+    let stocks = await Stock.getStocks();
+    socket.emit('stocks', { stocks: stocks });
   });
 };
 
-router.get('/show', function (req, res, next) {
-  Stock.getStocks.then((stocks) => {
-    res.render('showStocks', {
-      stocks: stocks
-    });
+router.get('/show', async function (req, res, next) {
+  let stocks = await Stock.getStocks();
+  res.render('showStocks', {
+    stocks: stocks
   });
 });

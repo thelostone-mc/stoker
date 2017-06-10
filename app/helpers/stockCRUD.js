@@ -2,20 +2,32 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema,
       Stock = mongoose.model('Stock');
 
-const getStocks = Stock.find({}, { _id: 0}, (err, stocks) => {
-  if(err) reject(err);
-  return (stocks);
-});
+const getStocks =  () => {
+  return new Promise((resolve, reject) => {
+    Stock.find({}, { _id: 0}, (err, stocks) => {
+      if(err) reject(err);
+      resolve(stocks);
+    });
+  });
+};
 
-const getStockSymbols = Stock.find( {}, { symbol: 1 , _id: 0 }, (err, symbols) => {
-  if(err) reject(err);
-  return (symbols);
-});
+const getStockSymbols = () => {
+  return new Promise((resolve, reject) => {
+    Stock.find( {}, { symbol: 1 , _id: 0 }, (err, symbols) => {
+      if(err) reject(err);
+      resolve(symbols);
+    });
+  });
+};
 
-const getCount = Stock.count({}, (err, count) => {
-  if(err) reject(err);
-  return(count);
-});
+const getCount = () => {
+  return new Promise((resolve, reject) => {
+    Stock.count({}, (err, count) => {
+      if(err) reject(err);
+      resolve(count);
+    });
+  });
+};
 
 const insertOne = (dataPoint) => {
   Stock.collection.save(dataPoint, (err) => {
