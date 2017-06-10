@@ -1,3 +1,20 @@
-
-<h1>Stock list</h1>
-<p>{{stocks}}</p>
+<table class="table-minimal">
+  <thead>
+    <tr>
+      <th>Stock</th>
+      <th>Current Price</th>
+      <th>Avg PutsIV</th>
+      <th>Avg CallsIV</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each stocks}}
+      <tr>
+        <td>{{this.symbol}}</td>
+        <td>{{this.underlyingStock}}</td>
+        <td>{{this.avgCallsIV}}</td>
+        <td>{{this.avgPutsIV}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
