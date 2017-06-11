@@ -20,6 +20,7 @@
     "express-handlebars": "^3.0.0",
     "glob": "^6.0.4",
     "method-override": "^2.3.0",
+    "mongo-oplog": "^2.0.2",
     "mongoose": "^4.10.4",
     "morgan": "^1.6.1",
     "node-schedule": "^1.2.3",
