@@ -18,3 +18,7 @@ router.get('/show', async function (req, res, next) {
     stocks: stocks
   });
 });
+
+router.get('/stokcards', async function (req, res, next) {
+  res.render('card');
+});

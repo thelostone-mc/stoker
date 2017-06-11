@@ -1,0 +1,68 @@
+.flex-boxes {
+  align-items: stretch;
+  clear: both;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center; }
+  .flex-boxes .clearfix:before,
+  .flex-boxes .clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    overflow: hidden; }
+  .flex-boxes .clearfix:after {
+    clear: both; }
+  .flex-boxes .clearfix {
+    zoom: 1;
+    /* IE < 8 */ }
+  .flex-boxes .flex-box {
+    align-self: stretch;
+    background: #f7f7f7;
+    border-radius: 3px;
+    box-shadow: inset 0 0 1px #DDD, 0 2px 4px #e6e6e6;
+    display: block;
+    flex: 2 2 15em;
+    margin: 0.4em;
+    padding: 2em 2em 3em 2em;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out; }
+    .flex-boxes .flex-box:nth-child(1) {
+      border-top: 6px solid tomato; }
+      .flex-boxes .flex-box:nth-child(1):focus, .flex-boxes .flex-box:nth-child(1):hover {
+        background-color: rgba(255, 99, 71, 0.1); }
+    .flex-boxes .flex-box:nth-child(2) {
+      border-top: 6px solid #72BFBF; }
+      .flex-boxes .flex-box:nth-child(2):focus, .flex-boxes .flex-box:nth-child(2):hover {
+        background-color: rgba(114, 191, 191, 0.1); }
+    .flex-boxes .flex-box:nth-child(3) {
+      border-top: 6px solid #92B1E3; }
+      .flex-boxes .flex-box:nth-child(3):focus, .flex-boxes .flex-box:nth-child(3):hover {
+        background-color: rgba(146, 177, 227, 0.1); }
+    .flex-boxes .flex-box:nth-child(4) {
+      border-top: 6px solid #E3D743; }
+      .flex-boxes .flex-box:nth-child(4):focus, .flex-boxes .flex-box:nth-child(4):hover {
+        background-color: rgba(227, 215, 67, 0.1); }
+    .flex-boxes .flex-box:nth-child(5) {
+      border-top: 6px solid #CCC; }
+      .flex-boxes .flex-box:nth-child(5):focus, .flex-boxes .flex-box:nth-child(5):hover {
+        background-color: rgba(204, 204, 204, 0.1); }
+    .flex-boxes .flex-box:nth-child(6) {
+      border-top: 6px solid #F6C05C; }
+      .flex-boxes .flex-box:nth-child(6):focus, .flex-boxes .flex-box:nth-child(6):hover {
+        background-color: rgba(246, 192, 92, 0.1); }
+    .flex-boxes .flex-box img {
+      display: block;
+      height: 3em;
+      margin: 0 auto 1em;
+      opacity: 0.4; }
+    .flex-boxes .flex-box .flex-title {
+      color: rgba(51, 51, 51, 0.7);
+      font-size: 1.2em;
+      margin-bottom: 0.5em; }
+    .flex-boxes .flex-box p {
+      color: rgba(51, 51, 51, 0.6);
+      line-height: 1.5em;
+      margin: auto; }
+  .flex-boxes .flex-box-big {
+    flex: 1 1 40em; }
