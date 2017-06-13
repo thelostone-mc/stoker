@@ -35,14 +35,3 @@ module.exports = function (app) {
     });
   });
 };
-
-router.get('/show', async function (req, res, next) {
-  let stocks = await Stock.getStocks();
-  res.render('showStocks', {
-    stocks: stocks
-  });
-});
-
-router.get('/stokcards', async function (req, res, next) {
-  res.render('card');
-});
