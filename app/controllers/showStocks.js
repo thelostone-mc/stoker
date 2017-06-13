@@ -8,8 +8,6 @@ module.exports = function(app) {
 
   router.get('/show', async function (req, res, next) {
     let stocks = await Stock.getStocks();
-    res.render('showStocks', {
-      stocks: stocks
-    });
+    res.json(stocks);
   });
 }

@@ -8,7 +8,7 @@ var config = {
     app: {
       name: 'stoker'
     },
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 3001,
     db: 'mongodb://localhost/stoker-development'
   },
 
@@ -17,7 +17,7 @@ var config = {
     app: {
       name: 'stoker'
     },
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 3001,
     db: 'mongodb://localhost/stoker-test'
   },
 
@@ -26,7 +26,7 @@ var config = {
     app: {
       name: 'stoker'
     },
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 3001,
     db: 'mongodb://localhost/stoker-production'
   }
 };
