@@ -1,10 +1,14 @@
 var express = require('express'),
   crawler = require('../helpers/crawler'),
   Stock = require('../helpers/stockCRUD'),
+  StockLog = require('../helpers/stockLogCRUD'),
   mongoose = require('mongoose'),
-  StockLog = mongoose.model('StockLog'),
   stockList = require('../helpers/stockList'),
-  schedule = require('node-schedule');
+  schedule = require('node-schedule'),
+  time = require('time');
+
+  time.tzset("Asia/Calcutta");
+  Date = time.Date;
 
 /**
  * Invokes crawler for every stockSymbol and
@@ -30,6 +34,30 @@ const fetchDataPoints = (stocks) => {
   });
 };
 
+/**
+ * Invokes crawler for every stockSymbol and
+ * does a single bulk update upon completion
+ */
+const updateStockLog = async (stocks) => {
+
+  if(stocks == undefined) {
+    console.log("Fetching symbols from stockList for stockLog");
+    stocks = stockList.stocks;
+  }
+
+  let init = [];
+
+  stocks.map((stockSymbol) => {
+    init.push(crawler.fetchIV(stockSymbol));
+  });
+
+  Promise.all(init).then(dataSets => {
+    StockLog.bulkAppendDataToStock(dataSets);
+  }).catch(function (err) {
+     console.log("Promise Rejected: " + err);
+  });
+};
+
 module.exports = async function () {
 
   // Initialize on startup
@@ -41,5 +69,9 @@ module.exports = async function () {
 
   schedule.scheduleJob('0 * * * *', () => {
     fetchDataPoints();
+  });
+
+  schedule.scheduleJob('0 16 * * *', () => {
+    updateStockLog();
   });
 };
