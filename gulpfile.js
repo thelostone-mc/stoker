@@ -2,7 +2,8 @@ var gulp = require('gulp'),
   nodemon = require('gulp-nodemon'),
   plumber = require('gulp-plumber'),
   livereload = require('gulp-livereload'),
-  sass = require('gulp-ruby-sass');
+  sass = require('gulp-ruby-sass'),
+  exec = require('child_process').exec;
 
 gulp.task('sass', function () {
   return sass('./stoker-client/src/css/**/*.scss')
@@ -31,7 +32,16 @@ gulp.task('develop', function () {
   });
 });
 
+gulp.task('yarn', function (cb) {
+  exec('cd stoker-client; yarn start --port 3000', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    cb(err);
+  });
+})
+
 gulp.task('default', [
+  'yarn',
   'sass',
   'develop',
   'watch'
