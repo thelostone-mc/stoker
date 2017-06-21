@@ -12,8 +12,10 @@ module.exports = function (app) {
     const oplog = MongoOplog('mongodb://127.0.0.1:27017/local',
                     { ns: 'stoker-development.stocks' })
 
-    oplog.tail().then(() => {
-      console.log('oplog: tailing')
+    oplog.tail().then(async () => {
+      console.log('oplog: tailing');
+      let stocks = await Stock.getStocks();
+      socket.emit('stocks', { stocks: stocks });
     }).catch(err => console.error(err))
 
     oplog.on('update', async (doc) => {
