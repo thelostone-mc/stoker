@@ -7,8 +7,8 @@ var express = require('express'),
   schedule = require('node-schedule'),
   time = require('time');
 
-  time.tzset("Asia/Calcutta");
-  Date = time.Date;
+time.tzset("Asia/Calcutta");
+Date = time.Date;
 
 /**
  * Invokes crawler for every stockSymbol and

@@ -1,12 +1,35 @@
 const request = require("request");
 const cheerio = require("cheerio");
 const cheerioTableparser = require("cheerio-tableparser");
+const stockList = require('../helpers/stockList');
 
 const CALLS_IV_ID = 4;
 const STOCK_PRICE_ID = 11;
 const PUTS_IV_ID = 18;
 
 const DECIMAL = 100;
+
+const fetchGoogleFinance = (stockSymbols) => {
+  return new Promise((resolve, reject) => {
+    if(!stockSymbols) {
+      console.log("fetchGoogleFinance: stocks not found. Using stockList");
+      stockSymbols = stockList.stocks;
+    }
+
+    const query = stockSymbols.join();
+
+    const options = {
+      method: 'GET',
+      url: 'http://finance.google.com/finance/info',
+      qs: { client: 'ig', q: query },
+    }
+
+    request(options, function (error, response, body) {
+      if (error) reject(error);
+      resolve(body);
+    });
+  });
+};
 
 const fetchIV = (stockSymbol) => {
   return new Promise((resolve) => {
@@ -103,4 +126,7 @@ const average = (list) => {
   return (sum / length).toFixed(2);
 }
 
-module.exports.fetchIV = fetchIV;
+module.exports = {
+  fetchIV,
+  fetchGoogleFinance
+};
