@@ -25,14 +25,18 @@ const fetchGoogleFinance = (stockSymbols) => {
     }
 
     request(options, function (error, response, body) {
-      if (error) reject(error);
+      if (error) {
+        console.log("Error crawling in fetchGoogleFinance: " +
+          stockSymbol + "\t" + error);
+        return reject(error);
+      }
       resolve(body);
     });
   });
 };
 
 const fetchIV = (stockSymbol) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const url = "https://nseindia.com/live_market/dynaContent/live_watch/option_chain/optionKeys.jsp";
     const options = {
       method: 'GET',
@@ -44,7 +48,8 @@ const fetchIV = (stockSymbol) => {
 
     request(options, (error, response, body) => {
       if (error || response.statusCode != 200) {
-        throw new Error("Error crawling: " + stockSymbol + "\t" + error);
+        console.log("Error crawling: " + stockSymbol + "\t" + error);
+        return reject(error)
       }
 
       const $ = cheerio.load(body);

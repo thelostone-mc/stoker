@@ -5,6 +5,7 @@ var express = require('express'),
   mongoose = require('mongoose'),
   stockList = require('../helpers/stockList'),
   schedule = require('node-schedule'),
+  promiseRetry = require('promise-retry'),
   time = require('time');
 
 time.tzset("Asia/Calcutta");
@@ -24,7 +25,9 @@ const fetchDataPoints = (stocks) => {
   let init = [];
 
   stocks.map((stockSymbol) => {
-    init.push(crawler.fetchIV(stockSymbol));
+    init.push(promiseRetry(function (retry, number) {
+      return crawler.fetchIV(stockSymbol).catch(retry);
+    }));
   });
 
   Promise.all(init).then(dataPoints => {

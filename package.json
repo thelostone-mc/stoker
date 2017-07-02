@@ -23,6 +23,7 @@
     "mongoose": "^4.10.4",
     "morgan": "^1.6.1",
     "node-schedule": "^1.2.3",
+    "promise-retry": "^1.1.1",
     "request": "^2.81.0",
     "serve-favicon": "^2.3.0",
     "socket.io": "^2.0.2",
