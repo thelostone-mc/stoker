@@ -1,3 +1,5 @@
+@import "neat/_neat.scss";
+
 .table-minimal {
   $base-border-color: gainsboro !default;
   $base-border-radius: 3px !default;
@@ -49,6 +51,27 @@
       border-top: 1px solid $table-border-color;
       line-height: $base-line-height;
       padding: $table-padding;
+    }
+  }
+}
+
+.App {
+  @include grid-container;
+}
+
+#stockTable {
+  .reactable-filterer {
+    .reactable-filter-input {
+      color: #999;
+      border-radius: 0;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid #eee;
+      box-shadow: none;
+
+      @include grid-shift(4);
+      @include grid-column(4);
     }
   }
 }

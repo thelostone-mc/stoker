@@ -18,3 +18,22 @@
       border-top: 1px solid gainsboro;
       line-height: 1.5em;
       padding: 0.75em 1em; }
+
+.App::after {
+  clear: both;
+  content: "";
+  display: block; }
+
+#stockTable .reactable-filterer .reactable-filter-input {
+  color: #999;
+  border-radius: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #eee;
+  box-shadow: none;
+  left: calc(33.33333% - 26.66667px + 20px);
+  position: relative;
+  width: calc(33.33333% - 26.66667px);
+  float: left;
+  margin-left: 20px; }

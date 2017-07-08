@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 const io = require('socket.io-client');
+const reactable = require("reactable");
 
 const socket = io.connect('http://localhost:3001');
+const Table = reactable.Table,
+      Thead = reactable.Thead,
+      Th = reactable.Th;
 
 class ShowStocks extends Component {
 
@@ -24,27 +28,56 @@ class ShowStocks extends Component {
   render() {
     return (
       <div className="App">
-        <h1>{this.state.stocks}</h1>
-        <table className="table-minimal">
-          <thead>
-            <tr>
-              <th>Stock</th>
-              <th>Current Price</th>
-              <th>Avg PutsIV</th>
-              <th>Avg CallsIV</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.symbols.map((symbol, key) =>
-              <tr key={key}>
-                <td>{this.state.stockList[key].symbol}</td>
-                <td>{this.state.stockList[key].underlyingStock}</td>
-                <td>{this.state.stockList[key].avgCallsIV}</td>
-                <td>{this.state.stockList[key].avgPutsIV}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        <Table className="table table-minimal" id="stockTable" data={this.state.stockList}
+          sortable defaultSort={{column: 'symbol'}} filterable={[
+            'symbol',
+            {
+              column: 'underlyingStock',
+              filterFunction: (contents, filter) => {
+                const content = parseFloat(contents);
+                if(filter.startsWith("price >")) {
+                  const digits = parseFloat(filter.replace( /^\D+/g, ''));
+                  return (content >= digits);
+                } else if(filter.startsWith("price <")) {
+                  const digits = parseFloat(filter.replace( /^\D+/g, ''));
+                  return (content <= digits);
+                }
+              }
+            },
+            {
+              column: 'avgCallsIV',
+              filterFunction: (contents, filter) => {
+                const content = parseFloat(contents);
+                if(filter.startsWith("calls >")) {
+                  const digits = parseFloat(filter.replace( /^\D+/g, ''));
+                  return (content >= digits);
+                } else if(filter.startsWith("calls <")) {
+                  const digits = parseFloat(filter.replace( /^\D+/g, ''));
+                  return (content <= digits);
+                }
+              }
+            },
+            {
+              column: 'avgPutsIV',
+              filterFunction: (contents, filter) => {
+                const content = parseFloat(contents);
+                if(filter.startsWith("puts >")) {
+                  const digits = parseFloat(filter.replace( /^\D+/g, ''));
+                  return (content >= digits);
+                } else if(filter.startsWith("puts <")) {
+                  const digits = parseFloat(filter.replace( /^\D+/g, ''));
+                  return (content <= digits);
+                }
+              }
+            }
+          ]}>
+          <Thead>
+            <Th column="symbol">Stock</Th>
+            <Th column="underlyingStock">Current Price</Th>
+            <Th column="avgCallsIV">Avg PutsIV</Th>
+            <Th column="avgPutsIV">Avg CallsIV</Th>
+          </Thead>
+        </Table>
       </div>
     );
   }
