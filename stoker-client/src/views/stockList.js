@@ -7,7 +7,7 @@ const Table = reactable.Table,
       Thead = reactable.Thead,
       Th = reactable.Th;
 
-class ShowStocks extends Component {
+class StockList extends Component {
 
   state = {
     symbols: [],
@@ -83,4 +83,4 @@ class ShowStocks extends Component {
   }
 }
 
-export default ShowStocks;
+export default StockList;

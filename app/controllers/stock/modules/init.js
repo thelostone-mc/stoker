@@ -1,15 +1,15 @@
-var express = require('express'),
-  crawler = require('../helpers/crawler'),
-  Stock = require('../helpers/stockCRUD'),
-  StockLog = require('../helpers/stockLogCRUD'),
+const express = require('express'),
   mongoose = require('mongoose'),
-  stockList = require('../helpers/stockList'),
   schedule = require('node-schedule'),
   promiseRetry = require('promise-retry'),
-  time = require('time');
-
-time.tzset("Asia/Calcutta");
-Date = time.Date;
+  crawler = require('./crawler'),
+  Stock = require('./crudStock'),
+  StockLog = require('./crudStockLog'),
+  stockList = require('./list');
+//   time = require('time');
+//
+// time.tzset("Asia/Calcutta");
+// Date = time.Date;
 
 /**
  * Invokes crawler for every stockSymbol and
@@ -25,14 +25,14 @@ const fetchDataPoints = (stocks) => {
   let init = [];
 
   stocks.map((stockSymbol) => {
-    init.push(promiseRetry(function (retry, number) {
+    init.push(promiseRetry((retry, number) => {
       return crawler.fetchIV(stockSymbol).catch(retry);
     }));
   });
 
   Promise.all(init).then(dataPoints => {
     Stock.bulkUpsert(dataPoints);
-  }).catch(function (err) {
+  }).catch(err => {
      console.log("Promise Rejected: " + err);
   });
 };
@@ -56,15 +56,14 @@ const updateStockLog = async (stocks) => {
 
   Promise.all(init).then(dataSets => {
     StockLog.bulkAppendDataToStock(dataSets);
-  }).catch(function (err) {
+  }).catch(err => {
      console.log("Promise Rejected: " + err);
   });
 };
 
-module.exports = async function () {
+// Initialize on startup
+Stock.getCount().then(dataSet => {
 
-  // Initialize on startup
-  let dataSet = await Stock.getCount();
   if(dataSet == 0) {
     console.log("Setting up data");
     fetchDataPoints();
@@ -77,4 +76,4 @@ module.exports = async function () {
   schedule.scheduleJob('0 16 * * *', () => {
     updateStockLog();
   });
-};
+});

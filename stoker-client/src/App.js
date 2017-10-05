@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './css/style.css';
 import './css/showStocks.css';
-import ShowStocks from './views/showStocks.js';
+import StockList from './views/stockList.js';
 
 class App extends Component {
 
@@ -11,7 +11,7 @@ class App extends Component {
     return(
       <BrowserRouter>
         <Switch>
-          <Route path="/show" component={ ShowStocks } />
+          <Route path="/stocks/list" component={ StockList } />
         </Switch>
       </BrowserRouter>
     )

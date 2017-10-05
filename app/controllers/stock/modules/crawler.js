@@ -1,7 +1,7 @@
-const request = require("request");
-const cheerio = require("cheerio");
-const cheerioTableparser = require("cheerio-tableparser");
-const stockList = require('../helpers/stockList');
+const request = require("request"),
+  cheerio = require("cheerio"),
+  cheerioTableparser = require("cheerio-tableparser"),
+  stockList = require('./list');
 
 const CALLS_IV_ID = 4;
 const STOCK_PRICE_ID = 11;
@@ -24,7 +24,7 @@ const fetchGoogleFinance = (stockSymbols) => {
       qs: { client: 'ig', q: query },
     }
 
-    request(options, function (error, response, body) {
+    request(options, (error, response, body) => {
       if (error) {
         console.log("Error crawling in fetchGoogleFinance: " +
           stockSymbol + "\t" + error);
@@ -53,7 +53,7 @@ const fetchIV = (stockSymbol) => {
       }
 
       const $ = cheerio.load(body);
-      const underlyingStock = stockPriceCleanser($('span').filter(function() {
+      const underlyingStock = stockPriceCleanser($('span').filter(() => {
         return $(this).text().indexOf('Underlying Stock:') > -1;
       }).text());
 
@@ -117,7 +117,7 @@ const stockPriceCleanser = (underlyingStock) => {
 
 const average = (list) => {
   let sum = 0, length = 0;
-  list.forEach(function(item, index, arr){
+  list.forEach((item, index, arr) => {
     if(!isNaN(item)) {
       sum += item;
       length += 1;

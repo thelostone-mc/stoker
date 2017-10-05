@@ -1,5 +1,5 @@
 
-var express = require('express'),
+const express = require('express'),
   app = express();
   config = require('./config/config'),
   glob = require('glob'),
@@ -7,22 +7,22 @@ var express = require('express'),
   server = require('http').Server(app),
   io = require('socket.io')(server);
 
-mongoose.connect(config.db);
+mongoose.connect(config.db, { useMongoClient: true });
 mongoose.Promise = Promise;
 
 var db = mongoose.connection;
 
-db.on('error', function () {
+db.on('error', () => {
   throw new Error('unable to connect to database at ' + config.db);
 });
 
-var models = glob.sync(config.root + '/app/models/*.js');
-models.forEach(function (model) {
+const models = glob.sync(config.root + '/app/models/**/*.js');
+models.forEach(model => {
   require(model);
 });
 
 module.exports = require('./config/express')(app, config);
 
-server.listen(config.port, function () {
+server.listen(config.port, () => {
   console.log('Express server listening on port ' + config.port);
 });
