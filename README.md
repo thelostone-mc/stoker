@@ -44,10 +44,10 @@ please do proper word-wrap and keep columns shorter than about
 72 characters or so. That way, `git log` will show things
 nicely even when it is indented.
 
-Fixes: https://github.com/adityaanandmc/issues/2
+Fixes: https://github.com/thelostone-mc/issues/2
 Refs: http://eslint.org/docs/rules/space-in-parens.html
 ```
 
 #### Collaborators
 - [Shroff Amrith Nayak](https://github.com/amrith92)
-- [Aditya Anand MC](https://github.com/adityaanandmc)
+- [Aditya Anand MC](https://github.com/thelostone-mc)
